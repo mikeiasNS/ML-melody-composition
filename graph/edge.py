@@ -4,7 +4,7 @@ class Edge:
   """docstring for Edge"""
   def __init__(self, destination_vertex):
     self.destination = destination_vertex
-    self.occurrences = [] #A list with the number of sequential ocurrences
+    self.occurrences = 1 #A list with the number of sequential ocurrences
 
   def __eq__(self, other):
     # pdb.set_trace()

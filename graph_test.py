@@ -11,4 +11,4 @@ c.through_edge(e1)
 g.through_edge(e2)
 c.through_edge(e1)
 
-print c.edges[0]
+print c
