@@ -8,6 +8,6 @@ def note_int(note, octave):
 
 def note(int_note, show_octave = True):
   note = NOTES[int_note % 12]
-  octave = "" 
-  if show_octave: octave = str(int_note / 12)
+  octave = ""
+  if show_octave: octave = str(int(int_note / 12))
   return note + octave

@@ -67,13 +67,14 @@ def tone(track):
 
 
 def major_or_minor(qtt_notes, tone_prob):
-  tone = max(tone_prob.iteritems(), key=operator.itemgetter(1))
+  tone = max(tone_prob.items(), key=operator.itemgetter(1))
+  # pdb.set_trace()
   tones = [tone]
   del tone_prob[tone[0]]
 
   while True:
-    tone = max(tone_prob.iteritems(), key=operator.itemgetter(1))
-    if tone[1] == tones[-1][1]: 
+    tone = max(tone_prob.items(), key=operator.itemgetter(1))
+    if tone[1] >= tones[-1][1]: 
       tones.append(tone)
       del tone_prob[tone[0]]
     else:
