@@ -37,7 +37,7 @@ X_test = onehotencoder.transform(X_test).toarray()
 sc.fit(X_test)
 
 i = 1
-while(i <= total_compasses): 
+while(i <= 4): 
     compass_result = test_seq[test_seq[:, 1] == i, :]
     
     X_test = copy.deepcopy(compass_result)
