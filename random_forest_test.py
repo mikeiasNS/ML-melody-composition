@@ -68,14 +68,19 @@ y = dataset.iloc[:, 3].values
 X = pre_processor.call_method(X, 'fit_transform', scale=True, categorical=True,
     categorical_data_index=(range(0, len(X)), 0), hot_encoder=True)
 
-classifier = RandomForestClassifier()
-classifier.fit(X, y)
-
 durations_X = copy.deepcopy(durations_y)
 durations_X = pre_processor.call_method(durations_X, 'transform', categorical=True, 
     categorical_data_index=(range(0, len(durations_X)), 0), hot_encoder=True)
 pre_processor.call_method(durations_X, 'fit', scale=True)
 
-y_pred = classifier.predict(durations_X)
+notes_y = np.array([])
 
-melody = np.concatenate((durations_y, np.array([y_pred]).T), axis=1) 
+for current_note_x in durations_X:
+    classifier = RandomForestClassifier()
+    classifier.fit(X, y)
+
+    current_note_x = pre_processor.call_method([current_note_x], 'transform', scale=True)
+    y_pred = classifier.predict(current_note_x)
+    notes_y = np.append(notes_y, y_pred)
+
+melody = np.concatenate((durations_y, np.array([notes_y]).T), axis=1) 
