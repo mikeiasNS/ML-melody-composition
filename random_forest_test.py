@@ -7,6 +7,8 @@ from pre_processor import PreProcessor
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 
+# 0: pausa, 1: semifusa, 2: fusa, 3: semicolcheia, 4: colcheia, 5: seminima, 6: minima, 7: semibreve
+_actual_durations = [0, 0.0625, 0.125, 0.250, 0.500, 1, 2, 4]
 # 0: semicolcheia, 1: colcheia, 2: seminima, 3: minima, 4: semibreve
 actual_durations = [0.25, 0.5, 1, 2, 4]
 beats_by_compass = 4
@@ -84,3 +86,21 @@ for current_note_x in durations_X:
     notes_y = np.append(notes_y, y_pred)
 
 melody = np.concatenate((durations_y, np.array([notes_y]).T), axis=1) 
+
+# creating MIDI
+
+from mido import Message, MidiFile, MidiTrack, bpm2tempo, MetaMessage
+
+mid = MidiFile()
+track = MidiTrack()
+mid.tracks.append(track)
+
+# TODO: get tempo based on dataset
+track.append(MetaMessage('set_tempo', tempo=bpm2tempo(120)))
+
+for notes in melody:
+    track.append(Message('note_on', note=int(notes[3]), time=0))
+    track.append(Message('note_off', note=int(notes[3]), 
+        time= int(mid.ticks_per_beat * actual_durations[notes[2]])))
+
+mid.save('new_song.mid')

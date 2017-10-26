@@ -45,40 +45,40 @@ for file_name in file_names:
       duration = message.dict()['time'] / ticks_per_beat
       dataset.append([message.dict()['note'], duration, i])
       
-dataset = np.asarray(dataset)
-X = dataset[:, 1:2]
-wcss = []
-for i in range(1, 11):
-    kmeans = KMeans(n_clusters = i, init = 'k-means++')
-    kmeans.fit(X)
-    wcss.append(kmeans.inertia_)
-plt.plot(range(1, 11), wcss)
-plt.title('The Elbow Method')
-plt.xlabel('Number of clusters')
-plt.ylabel('WCSS')
-plt.show()
+# dataset = np.asarray(dataset)
+# X = dataset[:, 1:2]
+# wcss = []
+# for i in range(1, 11):
+#     kmeans = KMeans(n_clusters = i, init = 'k-means++')
+#     kmeans.fit(X)
+#     wcss.append(kmeans.inertia_)
+# plt.plot(range(1, 11), wcss)
+# plt.title('The Elbow Method')
+# plt.xlabel('Number of clusters')
+# plt.ylabel('WCSS')
+# plt.show()
 
-k = 0
+# k = 0
 
-for i in range(0, len(wcss)):
-    if wcss[i] / 2 > wcss[i+1]: 
-        k = i + 1
-    else:
-        break
+# for i in range(0, len(wcss)):
+#     if wcss[i] / 2 > wcss[i+1]: 
+#         k = i + 1
+#     else:
+#         break
 
-kmeans = KMeans(n_clusters = k)
-y_kmeans = kmeans.fit_predict(X)
+# kmeans = KMeans(n_clusters = k)
+# y_kmeans = kmeans.fit_predict(X)
 
-colors = ['blue', 'green', 'red', 'gray', 'black', 'white']
-for i in range(0, k):
-    #cluster = list(filter(lambda x: y_kmeans[dataset.index(x)] == i, dataset))
-    x = dataset[y_kmeans == i, 2]
-    y = dataset[y_kmeans == i, 1]
-    plt.scatter(x, y, s=10, c=colors[i]);
+# colors = ['blue', 'green', 'red', 'gray', 'black', 'white']
+# for i in range(0, k):
+#     #cluster = list(filter(lambda x: y_kmeans[dataset.index(x)] == i, dataset))
+#     x = dataset[y_kmeans == i, 2]
+#     y = dataset[y_kmeans == i, 1]
+#     plt.scatter(x, y, s=10, c=colors[i]);
 
-plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s = 50, c = 'yellow')
-plt.title('Clusters of moondance')
-plt.xlabel('sequence')
-plt.ylabel('note')
-plt.legend()
-plt.show()
+# plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s = 50, c = 'yellow')
+# plt.title('Clusters of moondance')
+# plt.xlabel('sequence')
+# plt.ylabel('note')
+# plt.legend()
+# plt.show()
