@@ -7,15 +7,13 @@ from pre_processor import PreProcessor
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 
-# 0: pausa, 1: semifusa, 2: fusa, 3: semicolcheia, 4: colcheia, 5: seminima, 6: minima, 7: semibreve
-_actual_durations = [0, 0.0625, 0.125, 0.250, 0.500, 1, 2, 4]
-# 0: semicolcheia, 1: colcheia, 2: seminima, 3: minima, 4: semibreve
-actual_durations = [0.25, 0.5, 1, 2, 4]
+# 0: semifusa, 1: fusa, 2: semicolcheia, 3: colcheia, 4: seminima, 5: minima, 6: semibreve
+actual_durations = [0.0625, 0.125, 0.250, 0.500, 1, 2, 4]
 beats_by_compass = 4
 total_compasses = 16
 
 # Importing the dataset
-dataset = pd.read_csv('musics_mock.csv')
+dataset = pd.read_csv('real_dataset.csv', header=None)
 
 X = dataset.iloc[:, 0:2].values
 y = dataset.iloc[:, 2].values
@@ -98,8 +96,13 @@ mid.tracks.append(track)
 # TODO: get tempo based on dataset
 track.append(MetaMessage('set_tempo', tempo=bpm2tempo(120)))
 
+delta = 0
 for notes in melody:
-    track.append(Message('note_on', note=int(notes[3]), time=0))
+    if int(notes[3]) < 0: 
+        delta += int(mid.ticks_per_beat * actual_durations[notes[2]])
+        continue
+    track.append(Message('note_on', note=int(notes[3]), time=delta))
+    if delta != 0: delta = 0
     track.append(Message('note_off', note=int(notes[3]), 
         time= int(mid.ticks_per_beat * actual_durations[notes[2]])))
 
