@@ -7,7 +7,8 @@ from pre_processor import PreProcessor
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 
-# 0: semifusa, 1: fusa, 2: semicolcheia, 3: colcheia, 4: seminima, 5: minima, 6: semibreve
+# 0: semifusa, 1: fusa, 2: semicolcheia, 3: colcheia, 
+# 4: seminima, 5: minima, 6: semibreve
 actual_durations = [0.0625, 0.125, 0.250, 0.500, 1, 2, 4]
 beats_by_compass = 4
 total_compasses = 16
@@ -15,7 +16,7 @@ total_compasses = 16
 # Importing the dataset
 dataset = pd.read_csv('luiz_gonzaga_c.csv', header=None)
 
-X = dataset.iloc[:, 0:2].values
+X = dataset.iloc[:, 0:1].values
 y = dataset.iloc[:, 2].values
 
 pre_processor = PreProcessor()
@@ -28,7 +29,7 @@ classifier.fit(X, y)
 
 durations_y = np.array([[]])
 test_seq = pd.read_csv('x_test.csv', header=None).iloc[:, :].values
-X_test = copy.deepcopy(test_seq)
+X_test = test_seq[:, [0]]
 X_test = pre_processor.call_method(X_test, 'transform', categorical=True, 
     categorical_data_index=(range(0, len(X_test)), 0), hot_encoder=True)
 pre_processor.call_method(X_test, 'fit', scale=True)
@@ -37,7 +38,7 @@ i = 1
 while(i <= total_compasses):
     compass_durations_X = test_seq[test_seq[:, 1] == i, :]
     
-    X_test = copy.deepcopy(compass_durations_X)
+    X_test = compass_durations_X[:,0:1]
     X_test = pre_processor.call_method(X_test, 'transform', hot_encoder=True, scale=True, 
         categorical=True, categorical_data_index=(range(0, len(X_test)), 0))
     
@@ -69,7 +70,7 @@ X = pre_processor.call_method(X, 'fit_transform', scale=True, categorical=True,
     categorical_data_index=(range(0, len(X)), 0), hot_encoder=True)
 
 durations_X = copy.deepcopy(durations_y)
-durations_X = pre_processor.call_method(durations_X, 'transform', categorical=True, 
+durations_X = pre_processor.call_method(durations_X, 'transform',
     categorical_data_index=(range(0, len(durations_X)), 0), hot_encoder=True)
 pre_processor.call_method(durations_X, 'fit', scale=True)
 
