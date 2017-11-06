@@ -75,8 +75,9 @@ durations_X = pre_processor.call_method(durations_X, 'transform', categorical=Tr
 pre_processor.call_method(durations_X, 'fit', scale=True)
 
 notes_y = np.array([])
+
 markov_chain = MarkovChain(X, y)
-order = 5
+order = 1
 
 for i in range(0, len(durations_X)):
     current_note_x = durations_X[i]
@@ -84,7 +85,7 @@ for i in range(0, len(durations_X)):
     
     if i > 0: 
         now_order = order if i >= order else i
-        y_pred = markov_chain.predict(current_note_x, notes_y[-now_order:])
+        y_pred = markov_chain.predict(current_note_x, notes_y[-order:])
         notes_y = np.append(notes_y, y_pred)
     else:
         classifier = RandomForestClassifier()
