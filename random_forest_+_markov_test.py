@@ -6,6 +6,7 @@ import random
 from pre_processor import PreProcessor
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
 from markov import MarkovChain
 
 # 0: semifusa, 1: fusa, 2: semicolcheia, 3: colcheia, 4: seminima, 5: minima, 6: semibreve
@@ -84,11 +85,10 @@ for i in range(0, len(durations_X)):
     current_note_x = pre_processor.call_method([current_note_x], 'transform', scale=True)
     
     if i > 0: 
-        now_order = order if i >= order else i
-        y_pred = markov_chain.predict(current_note_x, notes_y[-order:])
+        y_pred = markov_chain.predict(current_note_x, notes_y)
         notes_y = np.append(notes_y, y_pred)
     else:
-        classifier = RandomForestClassifier()
+        classifier = GaussianNB()
         classifier.fit(X, y)
     
         y_pred = classifier.predict(current_note_x)
