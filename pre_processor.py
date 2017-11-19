@@ -7,7 +7,7 @@ class PreProcessor(object):
     self.label_encoder = LabelEncoder()
     self.one_hot_encoder = OneHotEncoder()
 
-  def call_method(self,x, method, scale = False, categorical = False, categorical_data_index=0, hot_encoder = False):
+  def call_method(self,x, method, scale=False, categorical=False, categorical_data_index=0, hot_encoder=False):
     if categorical: x[categorical_data_index] = getattr(self.label_encoder, method)(x[categorical_data_index])
     if hot_encoder: x = getattr(self.one_hot_encoder, method)(x).toarray()
     if scale: x = getattr(self.scaler, method)(x)

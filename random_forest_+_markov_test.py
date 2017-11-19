@@ -112,9 +112,9 @@ for notes in melody:
     if int(notes[3]) < 0: 
         delta += int(mid.ticks_per_beat * actual_durations[notes[2]])
         continue
-    track.append(Message('note_on', note=int(notes[3]), time=delta))
+    track.append(Message('note_on', note=int(notes[3]), time=delta, velocity=127))
     if delta != 0: delta = 0
     track.append(Message('note_off', note=int(notes[3]), 
-        time= int(mid.ticks_per_beat * actual_durations[notes[2]])))
+        time=int(mid.ticks_per_beat * actual_durations[notes[2]])))
 
 mid.save('new_song.mid')
