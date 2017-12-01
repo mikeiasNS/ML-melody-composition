@@ -15,7 +15,7 @@ beats_by_compass = 4
 total_compasses = 16
 
 # Importing the dataset
-dataset = pd.read_csv('luiz_gonzaga_c.csv', header=None)
+dataset = pd.read_csv('pop_rock.csv', header=None)
 
 X = dataset.iloc[:, 0:2].values
 y = dataset.iloc[:, 2].values
@@ -117,4 +117,4 @@ for notes in melody:
     track.append(Message('note_off', note=int(notes[3]), 
         time=int(mid.ticks_per_beat * actual_durations[notes[2]])))
 
-mid.save('new_song.mid')
+mid.save('pop_rock.mid')
