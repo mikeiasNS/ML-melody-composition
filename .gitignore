@@ -2,3 +2,7 @@
 __pycache__/*
 mido.egg-info/*
 books/*
+images/*
+midi_files/*
+results/*
+*.mid
